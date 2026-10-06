@@ -18,7 +18,7 @@ export default async function community(request: Request) {
     const user = await getUser();
     if (!user) return reply({ error: 'Sign in to access the FireVerso community.' }, 401);
     if (request.method !== 'GET') {
-      try { verifyRequestOrigin(request); } catch { return reply({ error: 'Request origin not allowed.' }, 403); }
+    try { verifyRequestOrigin(request); } catch { return reply({ error: 'Request origin not allowed.' }, 403); }
     }
     const database = getDatabase();
     const url = new URL(request.url);
