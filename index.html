@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FireVerso — Free Fire community and leaderboard</title>
+<meta name="description" content="Join FireVerso to create your player profile, meet your squad, explore the community leaderboard, and personalize your Free Fire nick and bio.">
+<meta property="og:site_name" content="FireVerso">
+<meta property="og:title" content="FireVerso — Free Fire community and leaderboard">
+<meta property="og:description" content="Your Free Fire community. Create an account, join your server, and find your place on the leaderboard.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="/src/community.css">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f4f3fb;--card:rgba(255,255,255,.75);--ink:#13111f;--mut:#645f78;--line:rgba(30,20,80,.1);--acc:#6d4aff;--acc2:#ff5c8a;--acc3:#ffb23e;--chip:rgba(109,74,255,.09);--glow:rgba(109,74,255,.25);--g:linear-gradient(120deg,var(--acc),var(--acc2) 55%,var(--acc3))}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#07060d;--card:rgba(24,20,40,.62);--ink:#f5f3ff;--mut:#9d98b5;--line:rgba(255,255,255,.09);--acc:#8b6bff;--acc2:#ff5c8a;--acc3:#ffb23e;--chip:rgba(139,107,255,.14);--glow:rgba(139,107,255,.35)}}
+:root[data-theme="dark"]{--bg:#07060d;--card:rgba(24,20,40,.62);--ink:#f5f3ff;--mut:#9d98b5;--line:rgba(255,255,255,.09);--acc:#8b6bff;--acc2:#ff5c8a;--acc3:#ffb23e;--chip:rgba(139,107,255,.14);--glow:rgba(139,107,255,.35)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(600px 400px at 10% -5%,var(--glow),transparent 70%),radial-gradient(500px 380px at 95% 10%,rgba(255,92,138,.18),transparent 70%),radial-gradient(500px 400px at 50% 110%,rgba(255,178,62,.12),transparent 70%)}
+.w{max-width:1000px;margin:0 auto;padding:0 18px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:8px;padding:12px 0 8px}
+.logo{font-weight:800;font-size:21px;letter-spacing:-.6px;cursor:pointer;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sp{flex:1}
+.ib{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;height:36px;min-width:36px;padding:0 10px;font:600 13px inherit;cursor:pointer;backdrop-filter:blur(8px)}
+nav{display:flex;gap:6px;overflow-x:auto;padding:0 0 12px;scrollbar-width:none}nav::-webkit-scrollbar{display:none}
+nav a{flex:none;border:1px solid var(--line);background:var(--card);color:var(--mut);border-radius:999px;padding:6px 15px;font:600 13px inherit;cursor:pointer;transition:.2s}
+nav a:hover{color:var(--ink);border-color:var(--acc)}
+nav a.on{background:var(--g);color:#fff;border-color:transparent;box-shadow:0 6px 20px -6px var(--acc)}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:10px;align-items:center;padding:44px 0 16px}
+.pill{display:inline-flex;gap:8px;align-items:center;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);font:600 12px inherit;color:var(--mut);backdrop-filter:blur(8px)}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:#2ee59d;box-shadow:0 0 10px #2ee59d}
+.hero h1{font-size:clamp(34px,6.4vw,58px);line-height:1.02;margin:16px 0 14px;letter-spacing:-2.2px;font-weight:800}
+.hero h1 span,.hero h1+p b{background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin:0;color:var(--mut);max-width:470px;font-size:17px}
+.cta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}.cta .btn{width:auto;margin:0;padding:13px 24px}
+.btn{border:0;background:var(--g);color:#fff;font:700 15px inherit;padding:12px 18px;border-radius:14px;cursor:pointer;width:100%;margin-top:12px;box-shadow:0 12px 30px -10px var(--acc);transition:.2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 16px 36px -10px var(--acc)}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none;backdrop-filter:blur(8px)}
+.stats{display:flex;gap:26px;margin-top:28px}.stats b{display:block;font-size:24px;letter-spacing:-1px}.stats small{color:var(--mut);font-size:12px}
+.scene{height:340px;perspective:900px;display:grid;place-items:center;position:relative}
+.rig{transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .15s;position:relative;width:150px;height:150px}
+.cube{width:150px;height:150px;transform-style:preserve-3d;animation:spin 20s linear infinite}
+.cube i{position:absolute;inset:0;display:grid;place-items:center;font-size:58px;font-style:normal;border-radius:22px;border:1px solid rgba(255,255,255,.28);background:linear-gradient(135deg,rgba(139,107,255,.55),rgba(255,92,138,.45));backdrop-filter:blur(4px);box-shadow:inset 0 0 40px rgba(255,255,255,.18),0 0 40px -6px var(--glow)}
+.cube i:nth-child(1){transform:translateZ(75px)}.cube i:nth-child(2){transform:rotateY(180deg) translateZ(75px)}.cube i:nth-child(3){transform:rotateY(90deg) translateZ(75px)}
+.cube i:nth-child(4){transform:rotateY(-90deg) translateZ(75px)}.cube i:nth-child(5){transform:rotateX(90deg) translateZ(75px)}.cube i:nth-child(6){transform:rotateX(-90deg) translateZ(75px)}
+@keyframes spin{from{transform:rotateX(-22deg) rotateY(0)}to{transform:rotateX(-22deg) rotateY(360deg)}}
+.orb{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px;border-radius:16px;display:grid;place-items:center;font-size:24px;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(10px);box-shadow:0 18px 40px -14px var(--acc);animation:fl 5s ease-in-out infinite}
+.o1{transform:translate3d(-130px,-90px,90px)}.o2{transform:translate3d(120px,-60px,120px);animation-delay:-1.5s}.o3{transform:translate3d(-110px,95px,60px);animation-delay:-3s}.o4{transform:translate3d(125px,100px,150px);animation-delay:-2s}
+@keyframes fl{50%{margin-top:-40px}}
+.floor{position:absolute;bottom:14px;width:240px;height:40px;border-radius:50%;background:radial-gradient(var(--glow),transparent 70%);filter:blur(6px)}
+h2{font-size:22px;margin:38px 0 4px;display:flex;align-items:baseline;gap:10px;letter-spacing:-.6px}h2 a{margin-left:auto;font-size:13px;color:var(--acc);cursor:pointer;font-weight:700}
+.sub{color:var(--mut);font-size:14px;margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:12px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 40px -20px rgba(0,0,0,.4)}
+.hs{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:none;perspective:900px}.hs::-webkit-scrollbar{display:none}
+.pl,.g,.lk a{transform-style:preserve-3d;transition:transform .15s ease-out,border-color .2s,box-shadow .2s;will-change:transform}
+.pl{flex:none;width:176px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;backdrop-filter:blur(14px)}
+.pl:hover,.g:hover,.lk a:hover{border-color:var(--acc);box-shadow:0 20px 40px -20px var(--acc)}
+.av{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:#fff;font-weight:800;margin-bottom:10px;box-shadow:0 10px 20px -8px currentColor;transform:translateZ(24px)}
+.pl b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pl small{color:var(--mut);font-size:12px;display:block}
+.lv{display:inline-block;background:var(--chip);color:var(--acc);border-radius:8px;padding:1px 8px;font-size:11px;font-weight:800;margin-bottom:6px}
+.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;perspective:1000px}
+.g{margin:0}.g .top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.g b{font-size:16px}
+.tag{display:inline-block;background:var(--chip);color:var(--acc);border-radius:999px;padding:3px 10px;font-size:11px;font-weight:700;margin:8px 4px 0 0}
+.open{background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800;white-space:nowrap}
+.lk{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;perspective:1000px}
+.lk a,.pop a{display:block;padding:11px 14px;background:var(--card);border:1px solid var(--line);border-radius:14px;font-size:14px;font-weight:500;cursor:pointer;color:var(--ink);backdrop-filter:blur(10px)}
+.pop{display:flex;flex-wrap:wrap;gap:8px}.pop a{border-radius:999px;padding:7px 16px}.pop a:hover{border-color:var(--acc);color:var(--acc)}
+input[type=text],textarea{width:100%;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 60%,transparent);color:var(--ink);border-radius:14px;padding:13px;font:inherit;outline:none;transition:.2s}
+input:focus,textarea:focus{border-color:var(--acc);box-shadow:0 0 0 4px var(--chip)}textarea{min-height:70px;resize:vertical}
+label{font-size:11px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.9px;display:block;margin:12px 0 6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.chip{border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:7px 14px;font:600 13px inherit;cursor:pointer;transition:.2s}.chip.on{background:var(--g);border-color:transparent;color:#fff;box-shadow:0 8px 18px -8px var(--acc)}
+.row{display:flex;align-items:center;gap:10px;padding:13px 15px;border:1px solid var(--line);border-radius:16px;background:var(--card);margin-bottom:8px;cursor:pointer;width:100%;color:var(--ink);font:inherit;text-align:left;backdrop-filter:blur(10px);transition:.15s}
+.row:hover{border-color:var(--acc);transform:translateY(-2px)}.row .t{flex:1;font-size:19px;word-break:break-all}.row .cp{font-size:11px;font-weight:800;color:#fff;background:var(--g);padding:4px 10px;border-radius:999px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:9px}
+.sym{aspect-ratio:1;display:grid;place-items:center;font-size:24px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:16px;cursor:pointer;transition:.15s}.sym:hover{border-color:var(--acc);transform:translateY(-3px) scale(1.06);box-shadow:0 14px 24px -12px var(--acc)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input[type=color]{width:100%;height:46px;border:1px solid var(--line);border-radius:14px;background:transparent;padding:4px}
+.prev{padding:16px;border-radius:16px;background:#05040a;border:1px solid var(--line);font-size:20px;font-weight:700;word-break:break-all;min-height:56px}
+.sens{display:grid;grid-template-columns:1fr 1fr;gap:10px}.sv{border:1px solid var(--line);border-radius:18px;padding:14px;background:var(--card);backdrop-filter:blur(10px)}
+.sv small{display:block;color:var(--mut);font-size:12px}.sv b{font-size:30px;letter-spacing:-1px}
+.bar2{height:6px;border-radius:9px;background:var(--line);margin-top:8px;overflow:hidden}.bar2 i{display:block;height:100%;background:var(--g);border-radius:9px;transition:width .4s}
+.back{display:inline-block;margin:22px 0 0;color:var(--acc);font-weight:700;cursor:pointer}
+.note{font-size:12px;color:var(--mut)}
+footer{border-top:1px solid var(--line);margin-top:50px;padding:26px 0 40px;color:var(--mut);font-size:12px}footer a{color:var(--mut);margin-right:14px;cursor:pointer}footer a:hover{color:var(--acc)}
+.view{display:none}.view.on{display:block;animation:in .35s ease}@keyframes in{from{opacity:0;transform:translateY(10px)}}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--g);color:#fff;padding:11px 20px;border-radius:999px;font-weight:700;font-size:14px;opacity:0;transition:.2s;pointer-events:none;z-index:9;box-shadow:0 14px 30px -10px var(--acc)}#toast.on{opacity:1;transform:translate(-50%,0)}
+@media(max-width:720px){.hero{grid-template-columns:1fr;padding-top:26px}.scene{height:290px;order:-1;margin-top:-10px;transform:scale(.85)}}
+@media(prefers-reduced-motion:reduce){.cube,.orb{animation:none}*{transition:none!important}}
+.srvs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;perspective:1000px}
+.srv{display:flex;flex-direction:column;gap:2px;text-align:left;padding:16px;border-radius:20px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;cursor:pointer;backdrop-filter:blur(14px);transition:.2s}
+.srv .fl{font-size:30px;line-height:1.2}.srv b{font-size:16px}.srv small{color:var(--mut);font-size:12px}
+.srv:hover{transform:translateY(-4px);border-color:var(--acc);box-shadow:0 20px 40px -20px var(--acc)}
+.srv.on{background:var(--g);border-color:transparent;box-shadow:0 18px 40px -14px var(--acc)}.srv.on,.srv.on small{color:#fff}
+.rg{display:inline-block;margin-left:6px}
+
+.lbh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:22px}.lbh h2{margin:0}.live{margin-left:auto}
+.seg{display:flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:14px;background:var(--card);backdrop-filter:blur(10px)}
+.seg button{flex:1;border:0;background:transparent;color:var(--mut);font:700 13px inherit;padding:9px 10px;border-radius:10px;cursor:pointer;transition:.2s;white-space:nowrap}
+.seg button.on{background:var(--g);color:#fff;box-shadow:0 8px 18px -8px var(--acc)}
+.lbc{display:grid;gap:10px;margin:14px 0 6px}
+.podium{display:grid;grid-template-columns:1fr 1.18fr 1fr;gap:10px;align-items:end;margin:26px 0 18px}
+.pd{--c:#b8c0d4;position:relative;min-width:0;text-align:center;padding:0 6px;cursor:pointer;animation:in .5s both}
+.pd.r1{--c:#ffb23e}.pd.r3{--c:#e0834f}.pd.r2{animation-delay:.08s}.pd.r3{animation-delay:.16s}
+.pd .av{width:56px;height:56px;border-radius:50%;margin:0 auto 8px;font-size:22px;border:3px solid var(--c);transform:none;box-shadow:0 0 0 5px color-mix(in srgb,var(--c) 22%,transparent),0 14px 30px -8px var(--c)}
+.pd.r1 .av{width:70px;height:70px;font-size:28px}
+.pd .cr{font-size:24px;line-height:1;margin-bottom:2px;animation:fl2 3s ease-in-out infinite}@keyframes fl2{50%{transform:translateY(-5px)}}
+.pd b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pd small{display:block;color:var(--mut);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pd .sc{font-weight:800;font-size:15px;margin:6px 0 8px;color:var(--c)}
+.pd .st{border-radius:16px 16px 0 0;display:grid;place-items:center;font-size:30px;font-weight:800;color:#fff;background:linear-gradient(180deg,var(--c),color-mix(in srgb,var(--c) 25%,transparent));box-shadow:0 -10px 40px -18px var(--c);height:60px}
+.pd.r1 .st{height:96px;font-size:40px}.pd.r2 .st{height:72px}
+.lr{display:grid;grid-template-columns:30px 42px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 14px;border:1px solid var(--line);border-radius:16px;background:var(--card);margin-bottom:8px;cursor:pointer;backdrop-filter:blur(10px);transition:.15s;animation:in .4s both}
+.lr:hover{border-color:var(--acc);transform:translateX(3px)}.lr .av{width:42px;height:42px;margin:0;transform:none}
+.lr .rk{font-weight:800;text-align:center;color:var(--mut);font-size:15px}.lr .nm{min-width:0}.lr .nm b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px}
+.lr .nm .bar2{height:4px;margin-top:7px}.lr .rt{text-align:right}.lr .rt b{display:block;font-size:16px;letter-spacing:-.3px}
+.up,.dn,.eq{font-size:11px;font-weight:800}.up{color:#2ee59d}.dn{color:#ff5c6c}.eq{color:var(--mut)}
+.lr .lv{margin:0 6px 0 0;font-size:10px;padding:0 7px}
+.lbstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.lbstats div{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:11px 14px;backdrop-filter:blur(10px)}
+.lbstats b{display:block;font-size:20px;letter-spacing:-.6px}.lbstats small{color:var(--mut);font-size:12px}
+@media(max-width:480px){.pd b{font-size:12px}.lr{gap:9px;padding:10px 11px}.lbstats b{font-size:16px}}
+
+.pa{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;overflow:hidden;background:var(--g);color:#fff;font:800 36px inherit;border:3px solid var(--card);box-shadow:0 0 0 3px var(--acc),0 16px 34px -10px var(--acc);flex:none}
+.pa img{width:100%;height:100%;object-fit:cover}.pa.big{cursor:pointer;position:relative}.pa.big::after{content:"Change";position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.55);font:700 11px inherit;padding:5px 0;text-align:center}
+.pfh{display:flex;align-items:center;gap:16px;margin-bottom:6px}.pfh p{margin:0}
+.pc{overflow:hidden;padding:0;text-align:center}.pc .cov{height:110px;background:var(--g)}.pc .pa{margin:-48px auto 0}.pc .in{padding:12px 20px 22px}
+.pc h3{font-size:24px;letter-spacing:-.8px;margin:10px 0 4px;word-break:break-word}.pc .bio{color:var(--mut);margin:0 auto;max-width:420px;white-space:pre-wrap;word-break:break-word}
+.soc{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:16px 0 4px}.soc a{border:1px solid var(--line);background:var(--chip);color:var(--ink);padding:9px 16px;border-radius:999px;font:700 13px inherit;text-decoration:none}.soc a:hover{border-color:var(--acc);color:var(--acc)}
+.pcb{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}.pcb .btn{width:auto;margin:0;padding:11px 20px}
+#jb{display:flex;align-items:center;gap:7px}#jb img,#jb i{width:22px;height:22px;border-radius:50%;object-fit:cover;background:var(--g);display:grid;place-items:center;color:#fff;font:800 11px inherit}
+footer .so a{color:var(--ink);font-weight:700}
+
+.topsoc{display:flex;align-items:center;gap:8px;padding:8px 0 0;font-size:12px;color:var(--mut)}.topsoc a{display:inline-flex;align-items:center;gap:6px;color:var(--ink);text-decoration:none;font-weight:700;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:4px 12px 4px 9px}.topsoc a:hover{border-color:var(--acc);color:var(--acc)}
+.ic{width:16px;height:16px;flex:none;vertical-align:-3px;margin-right:6px}.topsoc .ic{margin:0}.soc a{display:inline-flex;align-items:center}
+.pill.off::before{background:#ffb23e;box-shadow:0 0 10px #ffb23e}
+#crs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}#crs .chip{flex:none;white-space:nowrap}
+.chat{padding:0;overflow:hidden}.chh{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;flex-direction:column}.chh b{font-size:17px}
+#cml{height:min(50vh,440px);overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px}
+.mg{display:flex;gap:10px;align-items:flex-end;max-width:88%}.mg.me{flex-direction:row-reverse;margin-left:auto}.pa.sm{width:34px;height:34px;font-size:14px;border:0;box-shadow:none}
+.bd{min-width:0}.bd small{font-size:11px;color:var(--mut)}.mg.me .bd{text-align:right}.bb{background:var(--chip);padding:9px 13px;border-radius:16px 16px 16px 4px;word-break:break-word;white-space:pre-wrap;text-align:left}
+.mg.me .bb{background:var(--g);color:#fff;border-radius:16px 16px 4px 16px}.lfg{display:grid;gap:6px}.lfg .chip{justify-self:start;font-size:12px;padding:5px 12px}.mg.me .lfg .chip{background:rgba(255,255,255,.22);color:#fff}
+.cmp{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}.cmp .btn{width:auto;margin:0;padding:0 20px}.cmp input{flex:1;min-width:0}#clf{padding:10px 12px 0;margin:0}#cjn{padding:14px;border-top:1px solid var(--line)}
+</style></head><body>
+<header><div class="w"><div class="topsoc"><span>Follow us</span><a href="https://instagram.com/netron.vibes" target="_blank" rel="noopener" aria-label="Instagram netron.vibes"><span id="i1"></span>netron.vibes</a><a href="https://tiktok.com/@netroonffz" target="_blank" rel="noopener" aria-label="TikTok netroonffz"><span id="i2"></span>netroonffz</a></div><div class="bar"><button type="button" class="logo" onclick="go('home')">🔥 FireVerso</button><span class="sp"></span><select class="ib" id="rgsel" aria-label="Server"><option value="ALL">🌐 All servers</option><option value="EU">🇪🇺 Europe</option><option value="ME">🌍 MENA</option><option value="IN">🇮🇳 India</option><option value="BR">🇧🇷 Brazil</option></select><span class="note">EN</span><button class="ib" id="jb" onclick="go('profile')">✨ Join</button><button class="ib" id="th" aria-label="Theme">◐</button></div><nav id="nav"></nav></div></header>
+<main class="w">
+<div class="view on" id="v-home">
+ <div class="hero"><div><span class="pill">Free community · Your squad starts here</span><h1>Make your Free Fire profile <span>unforgettable.</span></h1><p>Create your account, find your community, and make your mark on the leaderboard. Your favorite nick, bio and sensitivity tools are here too.</p>
+ <div class="cta"><button class="btn" onclick="go('ranks')">Join the community</button><button class="btn ghost" onclick="go('auth')">Sign in</button></div>
+ <div class="stats"><div><b id="style-count">15</b><small>nick styles</small></div><div><b id="symbol-count">—</b><small>symbols</small></div><div><b>1-tap</b><small>copy</small></div></div></div>
+ <div class="scene"><div class="floor"></div><div class="rig" id="rig"><div class="cube"><i>🔥</i><i>♛</i><i>⚡</i><i>★</i><i>☠</i><i>❤</i></div><div class="orb o1">✦</div><div class="orb o2">༒</div><div class="orb o3">彡</div><div class="orb o4">♠</div></div></div></div>
+ <h2>Choose your server</h2><p class="sub">Choose your community. Filter the leaderboard by server after signing in.</p><div class="srvs" id="srvs"></div><h2>Recently registered</h2><p class="sub" id="s1"></p><div class="hs" id="reg"></div>
+ <div id="dir"></div>
+ <h2>Popular searches</h2><p class="sub">Quick links to your favorite symbol categories</p><div class="pop" id="pop"></div>
+</div>
+<div class="view" id="v-nick"><a class="back" href="/" onclick="go('home');return false">← Home</a><h2 id="nt">Nick creator</h2>
+ <div class="card"><label for="nn">Your name</label><input type="text" id="nn" value="Shadow" maxlength="16" autocomplete="off"><label>Decoration</label><div class="chips" id="decs"></div></div><div id="nout"></div></div>
+<div class="view" id="v-sym"><a class="back" href="/" onclick="go('home');return false">← Home</a><h2 id="st">Symbols</h2>
+ <div class="card"><input type="text" id="sq" aria-label="Search symbols" placeholder="Search: heart, crown, star…"><div class="chips" id="scats"></div></div><div class="grid" id="sgrid"></div></div>
+<div class="view" id="v-bio"><a class="back" href="/" onclick="go('home');return false">← Home</a><h2>Colorful bio generator</h2>
+ <div class="card"><label for="bt">Bio text</label><textarea id="bt" maxlength="100">No mercy. Only headshots.</textarea>
+ <div class="two"><div><label for="c1">Color 1</label><input type="color" id="c1" value="#ff4d1c"></div><div><label for="c2">Color 2</label><input type="color" id="c2" value="#ffd21c"></div></div>
+ <div class="chips" id="bmode"><button class="chip on" data-m="g">Gradient</button><button class="chip" data-m="s">Solid</button></div>
+ <label>Preview</label><div class="prev" id="bp"></div><button class="btn" id="bc">Copy bio code</button><p class="note">Uses [RRGGBB] color codes.</p></div>
+ <div id="bpre"></div></div>
+<div class="view" id="v-sensi"><a class="back" href="/" onclick="go('home');return false">← Home</a><h2>Sensi generator</h2>
+ <div class="card"><label>Device power</label><div class="chips" data-k="tier"><button class="chip" data-v="0">Budget</button><button class="chip on" data-v="1">Mid</button><button class="chip" data-v="2">Flagship</button></div>
+ <label>Play style</label><div class="chips" data-k="style"><button class="chip on" data-v="0">Rusher</button><button class="chip" data-v="1">Balanced</button><button class="chip" data-v="2">Sniper</button></div>
+ <label>Fingers</label><div class="chips" data-k="fing"><button class="chip" data-v="2">2</button><button class="chip on" data-v="3">3</button><button class="chip" data-v="4">4</button></div></div>
+ <div class="sens" id="sout"></div><p class="note">Starting point only — adjust ±5 after a few matches.</p></div>
+<div class="view" id="v-ranks"><a class="back" href="/" onclick="go('home');return false">← Home</a>
+ <div class="lbh"><h2>Leaderboard</h2><span class="pill" id="lbstatus">Members only</span></div><p class="sub" id="lbsub"></p>
+ <div class="lbstats" id="lbst"></div><p class="note" id="lbnotice">Only verified game results count. New members start at zero; FireVerso does not import Garena match data yet.</p><p id="lberror" class="status" role="status"></p><button class="chip" id="lbretry" hidden>Refresh leaderboard</button>
+ <div class="lbc"><div class="seg" id="lbp"><button data-v="today">Today</button><button data-v="week">This week</button><button data-v="all" class="on">All time</button></div>
+ <div class="seg" id="lbm"><button data-v="points" class="on">Rank points</button><button data-v="kills">Kills</button><button data-v="wins">Win rate</button></div>
+ <input type="text" id="lbq" aria-label="Find a player" placeholder="Find a player…" autocomplete="off"></div>
+ <div class="podium" id="lbpod"></div><div id="lbl"></div><button class="btn ghost" id="lbmore" hidden>Show more</button></div>
+<div class="view" id="v-profile"><a class="back" href="/" onclick="go('home');return false">← Home</a><h2>Your profile</h2><p class="sub">Your player profile, saved to your account and available across devices.</p>
+ <p class="status" id="pfstatus" role="status"></p><form id="profile-form"><div class="card" id="pfform"><div class="pfh"><button type="button" class="pa big" id="pfph" aria-label="Upload profile photo"></button><p class="note">Tap the photo to upload.<br>Square images look best.</p></div><input type="file" id="pfi" accept="image/*" hidden>
+ <label for="pn">Name</label><input required type="text" id="pn" maxlength="24" placeholder="Your nick" autocomplete="off">
+ <label for="pid">Free Fire ID</label><input required type="text" id="pid" inputmode="numeric" pattern="[0-9]{1,20}" maxlength="20" placeholder="Your numeric player ID"><p class="note">Self-reported ID. FireVerso does not verify Garena account ownership.</p>
+ <label for="pr">Your server</label><select id="pr" required><option value="EU">Europe</option><option value="ME">MENA</option><option value="IN">India</option><option value="BR">Brazil</option></select><label for="pb">Bio</label><textarea id="pb" maxlength="120" placeholder="Tell people who you are"></textarea>
+ <label for="p_ig">Instagram</label><input type="text" id="p_ig" maxlength="60" placeholder="@username" autocomplete="off">
+ <label for="p_tt">TikTok</label><input type="text" id="p_tt" maxlength="60" placeholder="@username" autocomplete="off">
+ <button type="submit" class="btn" id="pfs">Save profile</button><p class="note">Your name, bio, server and socials are visible to members. Your email stays private.</p></div></form>
+ <div id="pfcard"></div></div>
+<div class="view" id="v-chat"><a class="back" href="/" onclick="go('home');return false">← Home</a><div class="lbh"><h2>Chat Rooms</h2><span class="pill live off" id="cst"></span></div><p class="sub">Talk in a room or find people to play with.</p>
+ <div class="chips" id="crs"></div>
+ <div class="card chat"><div class="chh"><b id="crt"></b><small class="note" id="crd"></small></div><div id="cml"></div>
+ <div id="cjn" class="pcb" hidden><button class="btn" onclick="go('auth')">Sign in to chat</button></div>
+ <div id="cx"><div class="chips" id="clf"><button class="chip on" data-m="Ranked">Ranked</button><button class="chip" data-m="Clash Squad">Clash Squad</button><button class="chip" data-m="Battle Royale">Battle Royale</button><button class="chip" data-m="Custom">Custom</button><button class="chip" id="cpl" style="margin-left:auto">📣 Post</button></div>
+ <div class="cmp"><input type="text" id="cin" aria-label="Message" maxlength="200" placeholder="Write a message…" autocomplete="off"><button class="btn" id="csd">Send</button></div></div></div><p class="note" id="cn"></p></div>
+<div class="view" id="v-stub"><a class="back" href="/" onclick="go('home');return false">← Home</a><h2 id="sh">Page</h2><div class="card"><p>Game-ID lookups, official match imports, HUD uploads and the item catalog are not available. FireVerso is an independent community, not an official Garena service.</p></div></div>
+<div class="view" id="v-auth">
+ <div class="account-layout"><div class="account-intro"><span class="pill">FIREVERSO COMMUNITY</span><h1>Your next squad.<br>Your own <span>place.</span></h1><p>One account for your profile, the leaderboard and conversations with players across the world.</p><div class="account-benefit"><b>01</b><span>A profile that follows you across devices</span></div><div class="account-benefit"><b>02</b><span>A members-only community leaderboard</span></div><div class="account-benefit"><b>03</b><span>Shared chat rooms to find your squad</span></div><p class="note">Independent fan community. Never enter your Free Fire account password here.</p></div>
+ <div class="card account-card"><h2 id="auth-title">Your squad starts here.</h2><p class="sub" id="auth-description">Use a social account, then add just your Free Fire name and ID.</p>
+ <div id="auth-social"><div class="provider-buttons"><button type="button" class="provider-button" data-provider="google" disabled><span class="provider-mark" aria-hidden="true">G</span><span>Continue with Google</span><small>Checking availability…</small></button><button type="button" class="provider-button" data-provider="facebook" disabled><span class="provider-mark" aria-hidden="true">f</span><span>Continue with Facebook</span><small>Checking availability…</small></button><button type="button" class="provider-button" disabled aria-describedby="discord-note"><span class="provider-mark" aria-hidden="true">D</span><span>Discord</span><small>Not available</small></button></div><p class="note" id="discord-note">Discord sign-in is not supported by this site's Netlify Identity service.</p><p class="status" id="provider-status" role="status" aria-live="polite">Checking sign-in options…</p><button type="button" class="text-button" id="provider-retry" hidden>Check sign-in options again</button><div class="auth-divider"><span>or</span></div><button type="button" class="btn ghost" id="auth-email-option">Continue with email</button><p class="note">Social sign-in needs no separate FireVerso email or password. Email sign-in uses an email and a FireVerso password.</p></div>
+ <div class="seg" id="auth-tabs" hidden><button type="button" data-mode="signup">Create account</button><button type="button" data-mode="login" class="on">Sign in</button></div>
+ <form id="auth-form" hidden><div id="auth-email-field"><label for="auth-email">Email</label><input id="auth-email" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com"></div><div id="auth-password-field"><label for="auth-password">FireVerso password</label><input id="auth-password" type="password" minlength="8" maxlength="128" autocomplete="current-password" placeholder="Your FireVerso password"></div><p class="status" id="auth-status" role="status" aria-live="polite"></p><button type="submit" class="btn" id="auth-submit">Sign in</button></form>
+ <form id="player-form" hidden><label for="player-name">Free Fire player name</label><input id="player-name" maxlength="24" autocomplete="nickname" required placeholder="Your in-game nick"><label for="player-id">Free Fire ID</label><input id="player-id" type="text" inputmode="numeric" pattern="[0-9]{1,20}" maxlength="20" required aria-describedby="player-id-note" placeholder="Your numeric player ID"><p class="note" id="player-id-note">Find your ID in your Free Fire profile. This is self-reported, not verified by Garena.</p><p class="status" id="player-status" role="status" aria-live="polite"></p><button type="submit" class="btn" id="player-submit">Join the community</button><button type="button" class="text-button" id="player-logout">Use a different account</button></form>
+ <button type="button" class="text-button" id="auth-forgot" hidden>Forgot password?</button><button type="button" class="text-button" id="auth-back" hidden>Back to sign-in options</button><p class="note" id="auth-note">Signing in does not connect or change your Garena account.</p></div></div>
+</div>
+<div class="view" id="v-info"><a class="back" href="/" onclick="go('home');return false">← Home</a><div class="card"><h2 id="info-title"></h2><p id="info-content"></p></div></div>
+</main>
+<footer><div class="w"><p><a href="#privacy" data-info="privacy">Privacy &amp; Cookies</a><a href="#terms" data-info="terms">Terms of Use</a><a href="mailto:netronvibes@gmail.com?subject=FireVerso%20data%20deletion">Request data deletion</a><a href="/" onclick="go('home');return false">Homepage</a></p><p class="so">Contact: <a href="mailto:netronvibes@gmail.com">netronvibes@gmail.com</a></p><p>Made for players. Built around community.</p><p>FireVerso is an independent fan project with no affiliation to Garena. © 2026</p></div></footer>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+const $=s=>document.querySelector(s);let tt;
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1300)};
+window.toast=toast;
+const escapeText=value=>String(value).replace(/[&<>"']/g,character=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
+async function copy(s){try{await navigator.clipboard.writeText(s);toast('Copied ✓')}catch(error){const field=document.createElement('textarea');field.value=s;document.body.appendChild(field);field.select();let copied=false;try{copied=document.execCommand('copy')}catch(error){}field.remove();toast(copied?'Copied ✓':'Copy failed. Select and copy the text manually.')}}
+$('#th').onclick=()=>{const r=document.documentElement;const d=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark'};
+/* routing */
+function go(v,a){if(v==='auth'&&window.FireVerso?.signedIn)v='ranks';if(!['home','auth','info'].includes(v)&&!window.FireVerso?.signedIn){window.FireVerso?.requestAccess(v);v='auth'}document.querySelectorAll('.view').forEach(x=>x.classList.toggle('on',x.id==='v-'+v));
+ if(v==='sym'){sc=a&&sy[a]?a:'All';$('#st').textContent=a&&sy[a]?a+' for nick':'Symbols';symUI()}
+ if(v==='nick'){$('#nt').textContent=a||'Nick creator'}
+ if(v==='ranks')lb();
+ if(v==='profile')pf();
+ if(v==='chat')ch();
+ if(v==='stub')$('#sh').textContent=a||'Page';
+ window.FireVerso?.viewChanged(v);
+ document.querySelectorAll('#nav a').forEach(x=>x.classList.toggle('on',x.dataset.v===v));scrollTo({top:0})}
+const navs=[['Nicks','nick'],['Bio','bio'],['Sensi','sensi'],['Symbols','sym'],['Leaderboard','ranks'],['Chat Rooms','chat'],['My profile','profile']];
+$('#nav').innerHTML=navs.map(n=>`<a href="#${n[1]}" data-v="${n[1]}" onclick="go('${n[1]}','${n[0]}');return false">${n[0]}</a>`).join('');
+const SV={ALL:['All servers','🌐'],EU:['Europe','🇪🇺'],ME:['MENA','🌍'],IN:['India','🇮🇳'],BR:['Brazil','🇧🇷']},K=['EU','ME','IN','BR'];
+let reg='ALL';try{reg=localStorage.getItem('fv-reg')||'ALL'}catch(error){}if(!SV[reg])reg='ALL';
+function home(){
+ $('#s1').textContent=window.FireVerso?.signedIn?'Players joining your community.':'Sign in to meet the players in your community.';
+ $('#reg').innerHTML='<p class="note">Your community starts with an account.</p>';
+ $('#srvs').innerHTML=['ALL',...K].map(key=>`<button class="srv ${reg===key?'on':''}" data-k="${key}"><span class="fl">${SV[key][1]}</span><b>${SV[key][0]}</b><small>${key==='ALL'?'One community, every server':'Find your people'}</small></button>`).join('');
+ $('#rgsel').value=reg;window.FireVerso?.loadMembers();
+}
+function setReg(key){if(!SV[key])return;reg=key;try{localStorage.setItem('fv-reg',key)}catch(error){}home();window.FireVerso?.regionChanged(key);toast('Server: '+SV[key][0])}
+$('#srvs').onclick=event=>{const button=event.target.closest('.srv');if(button)setReg(button.dataset.k)};
+$('#rgsel').onchange=event=>setReg(event.target.value);
+home();
+/* directory */
+const dir=[
+['Community','Your server, your profile and your next squad', [['Community leaderboard','ranks'],['Chat rooms','chat'],['My player profile','profile']]],
+['Nicks and fonts','Decorate your name with copy-ready Unicode styles', [['Nick creator','nick'],['Unicode name styles','nick']]],
+['Bio','Colorful gradients and ready-made bio ideas', [['Colorful bio generator','bio'],['Bio inspiration','bio']]],
+['Sensitivity','A starting point based on your device and play style', [['Sensi generator','sensi']]],
+['Symbols for Nick','Choose a category, then tap a symbol to copy it', [['Hearts','sym','Hearts'],['Stars','sym','Stars'],['Crowns','sym','Crowns'],['Dark symbols','sym','Dark'],['Lightning','sym','Bolts'],['Flowers','sym','Flowers'],['Card suits','sym','Cards'],['Zodiac','sym','Zodiac'],['Faces','sym','Faces'],['Brackets','sym','Brackets'],['Arrows','sym','Arrows'],['Ornaments','sym','Marks'],['Asian symbols','sym','Asian']]]];
+$('#dir').innerHTML=dir.map(section=>`<h2>${section[0]}</h2><p class="sub">${section[1]}</p><div class="lk">${section[2].map(link=>`<a href="#${link[1]}" onclick="go('${link[1]}','${link[2]||link[0]}');return false">${link[0]}</a>`).join('')}</div>`).join('');
+$('#pop').innerHTML=['Hearts','Stars','Crowns','Flowers','Cards','Arrows'].map(category=>`<a href="#sym" onclick="go('sym','${category}');return false">${category.toLowerCase()}</a>`).join('');
+/* nicks */
+const R=(u,l,ex={})=>s=>[...s].map(c=>{if(ex[c])return ex[c];const k=c.charCodeAt(0);if(k>=65&&k<=90)return String.fromCodePoint(u+k-65);if(k>=97&&k<=122)return String.fromCodePoint(l+k-97);return c}).join('');
+const SC='ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ';
+const fonts=[s=>s,R(0x1D400,0x1D41A),R(0x1D468,0x1D482),R(0x1D4D0,0x1D4EA),R(0x1D56C,0x1D586),R(0x1D538,0x1D552,{C:'ℂ',H:'ℍ',N:'ℕ',P:'ℙ',Q:'ℚ',R:'ℝ',Z:'ℤ'}),R(0x1D670,0x1D68A),R(0x1D5D4,0x1D5EE),R(0x24B6,0x24D0),
+ s=>[...s].map(c=>{const k=c.toLowerCase().charCodeAt(0);return k>=97&&k<=122?SC[k-97]:c}).join(''),
+ s=>[...s].map(c=>{const k=c.charCodeAt(0);return k>32&&k<127?String.fromCharCode(k+0xFEE0):c}).join(''),
+ s=>[...s].join(' '),s=>[...s].join('·'),s=>[...s].map(c=>c+'̶').join(''),s=>[...s].map(c=>c+'̲').join('')];
+const decs=[['None','{n}'],['Wings','꧁{n}꧂'],['Brackets','『{n}』'],['Stars','★彡{n}彡★'],['Crown','♛{n}♛'],['Dark','༒{n}༒'],['Bolt','⚡{n}⚡'],['Skull','☠{n}☠'],['Tag','〄{n}〄']];let dec=0;
+$('#decs').innerHTML=decs.map((d,i)=>`<button class="chip ${i?'':'on'}" data-i="${i}">${d[0]}</button>`).join('');
+$('#decs').onclick=e=>{const b=e.target.closest('button');if(!b)return;dec=+b.dataset.i;document.querySelectorAll('#decs .chip').forEach(x=>x.classList.toggle('on',x===b));nicks()};
+function nicks(){const n=$('#nn').value||'Name';$('#nout').innerHTML=fonts.map(f=>{const v=decs[dec][1].replace('{n}',f(n));return `<button class="row" data-v="${encodeURIComponent(v)}"><span class="t">${escapeText(v)}</span><span class="cp">COPY</span></button>`}).join('')}
+$('#nn').oninput=nicks;$('#nout').onclick=e=>{const b=e.target.closest('.row');if(b)copy(decodeURIComponent(b.dataset.v))};nicks();
+/* symbols */
+const sy={Hearts:'❤ ♥ ♡ ❣ ❥ ღ ❦ ❧ 💗 💖 💜 🖤 ෆ',Stars:'★ ☆ ✦ ✧ ✪ ✯ ✰ ⚝ ✶ ✷ ✸ ✹ ⭐ ✨ ❂',Crowns:'♔ ♕ ♚ ♛ 👑 ♗ ♝ ♖ ♜',Dark:'☠ ☬ ☯ ☢ ☣ ☾ ☽ ☪ ♱ ✝ † ‡ ༒ 乂 卍 ⚔ 💀',Arrows:'➤ ➔ ➜ ➳ ➼ ⇒ ⇨ ↠ ↣ ⟶ ➻ » ➥ ↯',Bolts:'⚡ ϟ ⚑ ☄ ☇ ↯ ❄ ❅ ❆ ☀ ☁ ☂ ☃ 🔥',Brackets:'【 】 『 』 「 」 《 》 〖 〗 ⦃ ⦄ ⟦ ⟧ ❮ ❯ ⌈ ⌉',Flowers:'✿ ❀ ❁ ❃ ✾ ✽ ❋ ✤ ✥ ⚘ ☘ 🌸 🌹 🍀',Cards:'♠ ♣ ♥ ♦ ♤ ♧ ♡ ♢',Zodiac:'♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓',Faces:'ツ ッ シ ヅ ☺ ☻ ㋛ 〠 ٩ ۶ ಠ ಥ ◕ ‿ ᴗ',Asian:'亗 乡 彡 メ 〆 卐 々 益 弔 모 ㊝ 〄 龘',Marks:'✔ ✓ ✗ ✘ ✚ ✜ ✠ ✡ ✢ ☑ ⊗ ⊕ ⊙ ◉ ● ○ ◆ ◇ ▲ △ ▼ ▽ ■ □'};let sc='All';
+$('#scats').innerHTML=['All',...Object.keys(sy)].map(c=>`<button class="chip" data-c="${c}">${c}</button>`).join('');
+$('#scats').onclick=e=>{const b=e.target.closest('button');if(!b)return;sc=b.dataset.c;symUI()};
+function symUI(){const q=$('#sq').value.trim().toLowerCase();document.querySelectorAll('#scats .chip').forEach(x=>x.classList.toggle('on',x.dataset.c===sc));
+ const cs=Object.keys(sy).filter(c=>(sc==='All'||c===sc)&&(!q||c.toLowerCase().includes(q)||sy[c].includes(q)));
+ $('#sgrid').innerHTML=cs.flatMap(c=>sy[c].split(' ')).map(s=>`<button class="sym" data-s="${s}">${s}</button>`).join('')||'<p class="note">No matches.</p>'}
+$('#style-count').textContent=fonts.length;$('#symbol-count').textContent=Object.values(sy).flatMap(symbols=>symbols.split(' ')).length;
+$('#sq').oninput=symUI;$('#sgrid').onclick=e=>{const b=e.target.closest('.sym');if(b)copy(b.dataset.s)};symUI();
+/* bio */
+let bm='g';$('#bmode').onclick=e=>{const b=e.target.closest('button');if(!b)return;bm=b.dataset.m;document.querySelectorAll('#bmode .chip').forEach(x=>x.classList.toggle('on',x===b));bio()};
+const hx=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)),toH=a=>a.map(v=>Math.round(v).toString(16).padStart(2,'0')).join('').toUpperCase();
+const mix=(a,b,i,n)=>{const f=bm==='s'||n<2?0:i/(n-1);return a.map((v,j)=>v+(b[j]-v)*f)};
+function bioCode(){const t=[...$('#bt').value],a=hx($('#c1').value),b=hx($('#c2').value);return bm==='s'?'['+toH(a)+']'+t.join(''):t.map((c,i)=>c===' '?c:'['+toH(mix(a,b,i,t.length))+']'+c).join('')}
+function bio(){const t=[...$('#bt').value],a=hx($('#c1').value),b=hx($('#c2').value);$('#bp').innerHTML=t.map((c,i)=>`<span style="color:rgb(${mix(a,b,i,t.length).map(Math.round)})">${escapeText(c)}</span>`).join('')}
+['#bt','#c1','#c2'].forEach(s=>$(s).oninput=bio);$('#bc').onclick=()=>copy(bioCode());
+$('#bpre').innerHTML=['No mercy. Only headshots.','Loyal to few, dangerous to many.','Rank up or shut up.','Duo wanted — mic on.','Silent grind, loud results.','Born to rush.'].map(p=>`<button class="row" data-p="${p}"><span class="t" style="font-size:15px">${p}</span><span class="cp">USE</span></button>`).join('');
+$('#bpre').onclick=e=>{const b=e.target.closest('.row');if(b){$('#bt').value=b.dataset.p;bio();scrollTo({top:0,behavior:'smooth'})}};bio();
+/* sensi */
+const st={tier:1,style:0,fing:3};
+document.querySelectorAll('#v-sensi .chips').forEach(g=>g.onclick=e=>{const b=e.target.closest('button');if(!b)return;st[g.dataset.k]=+b.dataset.v;g.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b));sensi()});
+function sensi(){const cl=v=>Math.max(30,Math.min(100,Math.round(v))),s=st.style===2,g=cl([84,91,96][st.tier]+[4,0,-6][st.style]+(st.fing-3)*2);
+ const v=[['General',g],['Red Dot',cl(g-4+(st.style===0?3:0))],['2× Scope',cl(g-8+(s?6:0))],['4× Scope',cl(g-12+(s?8:0))],['AWM Scope',cl(g-22+(s?10:0))],['Free Look',cl(g-14+st.fing*2)]];
+ $('#sout').innerHTML=v.map(([n,x])=>`<div class="sv"><small>${n}</small><b>${x}</b><div class="bar2"><i style="width:${x}%"></i></div></div>`).join('')}
+sensi();
+
+function lb(){window.FireVerso?.loadLeaderboard()}
+function pf(){window.FireVerso?.loadProfile()}
+function ch(){window.FireVerso?.loadChat()}
+/* 3D: parallax scene + card tilt */
+(()=>{const rig=$('#rig');
+addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;
+ rig&&(rig.style.setProperty('--ry',x*34+'deg'),rig.style.setProperty('--rx',-y*26+'deg'));
+ const t=e.target.closest&&e.target.closest('.pl,.g,.lk a');if(t){const r=t.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;t.style.transform=`perspective(700px) rotateX(${-py*12}deg) rotateY(${px*14}deg) translateY(-4px)`}});
+document.addEventListener('pointerout',e=>{const t=e.target.closest&&e.target.closest('.pl,.g,.lk a');if(t)t.style.transform=''});
+addEventListener('deviceorientation',e=>{if(rig&&e.gamma!=null){rig.style.setProperty('--ry',Math.max(-30,Math.min(30,e.gamma))+'deg');rig.style.setProperty('--rx',Math.max(-20,Math.min(20,(e.beta-45)*.5))+'deg')}});
+})();
+</script><script type="module" src="/src/community.js"></script></body></html>
