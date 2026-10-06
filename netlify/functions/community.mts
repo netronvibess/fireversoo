@@ -17,7 +17,6 @@ export default async function community(request: Request) {
     if (!['GET', 'POST', 'PUT'].includes(request.method)) return reply({ error: 'Method not allowed.' }, 405);
     const user = await getUser();
     if (!user) return reply({ error: 'Sign in to access the FireVerso community.' }, 401);
-    if (!user.confirmedAt) return reply({ error: 'Confirm your email before accessing the community.' }, 403);
     if (request.method !== 'GET') {
       try { verifyRequestOrigin(request); } catch { return reply({ error: 'Request origin not allowed.' }, 403); }
     }
