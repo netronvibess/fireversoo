@@ -16,6 +16,7 @@ export default async function community(request: Request) {
   try {
     if (!['GET', 'POST', 'PUT'].includes(request.method)) return reply({ error: 'Method not allowed.' }, 405);
     const user = await getUser();
+// FireVerso community access
     if (!user) return reply({ error: 'Sign in to access the FireVerso community.' }, 401);
     if (request.method !== 'GET') {
 // Community access does not require email confirmation.
