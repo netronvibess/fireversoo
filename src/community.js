@@ -503,7 +503,7 @@ async function initialize() {
       return;
     }
     const user = await getUser();
-    if (user?.) {
+    if (user?.){
       if (!await activate(user, false)) return;
       if (callback || location.pathname === '/leaderboard') window.go('ranks');
       else if (location.pathname === '/account') window.go('profile');
